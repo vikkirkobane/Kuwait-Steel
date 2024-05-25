@@ -16,3 +16,39 @@ export const validateMyUserRequest = [
   body("country").isString().notEmpty().withMessage("Country must be a string"),
   handleValidationErrors,
 ];
+
+export const validateMyReportRequest = [
+  body("reportName").notEmpty().withMessage("Report title is required"),
+  
+  body("details").notEmpty().withMessage("Details are required"),
+  
+  body("recommendations").notEmpty().withMessage("Recommendations are required"),
+  
+  body("gate")
+    .isInt({ min: 0 })
+    .withMessage("Gate must be a positive integer"),
+    
+  body("plateNumber").isInt({ min: 0 }).withMessage("Plate number must be a positive integer"),
+
+  body("incident")
+    .isArray()
+    .withMessage("Incident must be an array")
+    .not()
+    .isEmpty()
+    .withMessage("Incident array cannot be empty"),
+
+  body("damageItems")
+    .isArray()
+    .withMessage("Damaged items must be an array"),
+    
+  body("damageItems.*.name")
+    .notEmpty()
+    .withMessage("Damaged item name is required"),
+    
+  body("damageItems.*.price")
+    .isFloat({ min:0 })
+    .withMessage("Damaged item price is required and must be a positive number"),
+  
+  handleValidationErrors,
+  
+  ];
