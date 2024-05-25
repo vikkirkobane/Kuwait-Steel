@@ -18,13 +18,13 @@ const getMyReport = async (req: Request, res: Response) => {
 
 const createMyReport = async (req: Request, res: Response) => {
   try {
-    // const existingReport = await Report.find({ user: req.userId });
-// 
-//     // if Report exists you cannot create a new one
-//     if (existingReport) {
-//       return res.status(409).json({ message: "User report already exists"});
-//     }
-// 
+     const existingReport = await Report.findOne({ user: req.userId });
+
+//      if Report exists you cannot create a new one
+      if (existingReport) {
+       return res.status(409).json({ message: "User report already exists"});
+     }
+ 
   
   const imageUrl = await uploadImage(req.file as Express.Multer.File);
 
