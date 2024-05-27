@@ -5,6 +5,16 @@ import ReportController from "../controllers/ReportController";
 const router = express.Router();
 
 router.get(
+  "/:reportId",
+  param("reportId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("ReportId paramenter must be a valid string"),
+  ReportController.getReport
+);
+
+router.get(
   "/search/:reportName",
   param("reportName")
     .isString()

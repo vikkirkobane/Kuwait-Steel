@@ -1,6 +1,22 @@
 import { Request, Response } from "express";
 import Report from "../models/report";
 
+const getReport = async (req: Request, res: Response) => {
+  try {
+    const reportId = req.params.reportId;
+
+    const report = await Report.findById(reportId);
+    if (!report) {
+      return res.status(404).json({ message: "report not found" });
+    }
+
+    res.json(report);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
+
 const searchReport = async (req: Request, res: Response) => {
   try {
     const reportName = req.params.reportName;
@@ -69,6 +85,6 @@ const searchReport = async (req: Request, res: Response) => {
 };
 
 export default {
-  //getRestaurant,
+  getReport,
   searchReport,
 };
