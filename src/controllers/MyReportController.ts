@@ -5,7 +5,16 @@ import mongoose from "mongoose";
 
 const getMyReport = async (req: Request, res: Response) => {
   try {
-    const report = await Report.findOne({ user: req.userId });
+     const report = await Report.findOne({ user: req.userId });
+    
+    //const reportId = req.params.reportId;
+
+    // const report = await Report.findById({
+//         user: req.params.reportId
+//       });
+
+
+
     if (!report) {
       return res.status(404).json({ message: "report not found" });
     }
@@ -18,13 +27,13 @@ const getMyReport = async (req: Request, res: Response) => {
 
 const createMyReport = async (req: Request, res: Response) => {
   try {
-     const existingReport = await Report.findOne({ user: req.userId });
-
-//      if Report exists you cannot create a new one
-      if (existingReport) {
-       return res.status(409).json({ message: "User report already exists"});
-     }
- 
+//      const existingReport = await Report.findOne({ user: req.userId });
+// 
+//     if Report exists you cannot create a new one
+//       if (existingReport) {
+//        return res.status(409).json({ message: "User report already exists"});
+//      }
+//  
   
   const imageUrl = await uploadImage(req.file as Express.Multer.File);
 
@@ -43,9 +52,18 @@ const createMyReport = async (req: Request, res: Response) => {
 
 const updateMyReport = async (req: Request, res: Response) => {
   try {
-    const report = await Report.findOne({
-      user: req.userId,
-    });
+    // updates the most resent report only
+     // const report = await Report.findOne({
+//        user: req.userId,
+//      });
+     
+    //updates report by its id
+    const reportId = req.params.reportId;
+
+     const report = await Report.findById(
+         reportId
+       );
+    
 
     if (!report) {
       return res.status(404).json({ message: "report not found" });

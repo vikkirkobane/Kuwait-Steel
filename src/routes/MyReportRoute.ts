@@ -3,6 +3,7 @@ import multer from "multer";
 import MyReportController from "../controllers/MyReportController";
 import { validateMyReportRequest } from "../middleware/validation";
 import { jwtCheck, jwtParse } from "../middleware/auth";
+import { param } from "express-validator";
 
 const router = express.Router();
 
@@ -27,7 +28,21 @@ router.post("/",
   );
 
 // UPDATE /api/my/report
-router.put("/",
+// router.put("/",
+//   upload.single("imageFile"),
+//   validateMyReportRequest,
+//   jwtCheck,
+//   jwtParse, 
+//   MyReportController.updateMyReport
+//   );
+
+
+router.put(  "/:reportId",
+  param("reportId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("ReportId paramenter must be a valid string"),
   upload.single("imageFile"),
   validateMyReportRequest,
   jwtCheck,
